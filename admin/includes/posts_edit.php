@@ -96,17 +96,21 @@ $postsRS = mysqli_fetch_assoc($response);
             <option value="Approved"<?php if ($postsRS["post_status"] == "Approved") { echo " selected=\"selected\""; } ?>>Approved</option>
         </select>
     </div>
-    <div class="form-group">
-        <div class="col-xs-6" style="padding-left:0">
+    <div class="row">
+        <div class="form-group col-xs-6">
             <label for="post-image">Post Image</label>
             <input type="file" id="post-image" name="fileImage"/>
         </div>
-        <div class="col-xs-6">
+        <div class="form-group col-xs-6">
             <?php
-            if (strpos($postsRS["post_image"], "http") > -1) {
-                echo "<img src=\"" . $postsRS["post_image"] . "\" style=\"width:150px\" alt=\"\"/>";
+            if (!empty($postsRS["post_image"])) {
+                if (strpos($postsRS["post_image"], "http") > -1) {
+                    echo "<img src=\"" . $postsRS["post_image"] . "\" style=\"width:150px\" alt=\"\"/>";
+                } else {
+                    echo "<img src=\"../images/" . $postsRS["post_image"] . "\" style=\"width:150px\" alt=\"\"/>";
+                }
             } else {
-                echo "<img src=\"../images/" . $postsRS["post_image"] . "\" style=\"width:150px\" alt=\"\"/>";
+                echo "&nbsp;";
             }
             ?>
         </div>
