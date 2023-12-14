@@ -1,6 +1,17 @@
 <?php ob_start(); ?>
 <?php include "../includes/db.php" ?>
 <?php session_start(); ?>
+<?php
+if (!isset($_SESSION["loggedRole"])) {
+    header("Location: ../index.php");
+} else {
+    /* PREVENT SUBSCRIBER FROM USING ADMIN TOOLS */
+    if ($_SESSION["loggedRole"] == 'Subscriber') {
+        header("Location: ../index.php");
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +24,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/sb-admin.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <link href="packages/summernote/summernote.min.css" rel="stylesheet" type="text/css">
     <style type="text/css">
         .flex-icons {
             display: flex;

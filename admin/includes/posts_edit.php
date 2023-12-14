@@ -52,7 +52,7 @@ if (isset($_POST["hidPostId"])) {
 $query = <<<SQL
     SELECT
         post_id, post_image, post_title, post_category_id,
-        post_author, post_status, post_tags, post_comment_count,
+        post_author, post_status, post_tags,
         post_date, post_content
     FROM
         posts

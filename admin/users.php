@@ -8,6 +8,11 @@
                         <h1 class="page-header">
                             User Management
                         </h1>
+                        <?php if (isset($_GET["n"])) { ?>
+                        <div class="alert alert-success" role="alert" id="save-alert">
+                            <i class="fa fa-check\"></i>&nbsp;&nbsp;New user added successfully..!
+                        </div>
+                        <?php } ?>
                         <?php
                         $source = "";
                         if (isset($_GET["source"])) {
