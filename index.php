@@ -37,13 +37,13 @@
                     <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
                     <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
                     <hr>
-                    <?php
+                    <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?php
                     if (strpos($postsRS["post_image"], "http") > -1) {
                         echo "<img src=\"" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
                     } else {
                         echo "<img src=\"images/" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
                     }
-                    ?>
+                    ?></a>
                     <hr>
                     <p><?=substr($postsRS["post_content"], 0, 300)?>...</p>
                     <a class="btn btn-primary" href="post.php?pid=<?=$postsRS["post_id"]?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>

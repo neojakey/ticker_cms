@@ -43,7 +43,7 @@ if (isset($_POST["hidUserId"])) {
     if (!$editUser) {
         die("Edit User Failed: " . mysqli_error($connection));
     } else {
-        header("Location: users.php");
+        header("Location: users.php?e=y");
     }
 }
 

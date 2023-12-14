@@ -8,6 +8,16 @@
                         <h1 class="page-header">
                             Post Management
                         </h1>
+                        <?php if (isset($_GET["n"])) { ?>
+                        <div class="alert alert-success" role="alert" id="save-alert">
+                            <i class="fa fa-check\"></i>&nbsp;&nbsp;New post added successfully..!
+                        </div>
+                        <?php } ?>
+                        <?php if (isset($_GET["e"])) { ?>
+                        <div class="alert alert-success" role="alert" id="save-alert">
+                            <i class="fa fa-check\"></i>&nbsp;&nbsp;Post changes saved successfully..!
+                        </div>
+                        <?php } ?>
                         <?php
                         $source = "";
                         if (isset($_GET["source"])) {
@@ -30,3 +40,12 @@
         </div>
     </div>
 <?php include "includes/admin_footer.php" ?>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('#save-alert').length) {
+            setTimeout(function () {
+                $('#save-alert').slideUp();
+            }, 3000)
+        }
+    })
+</script>

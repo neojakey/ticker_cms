@@ -30,6 +30,14 @@
                 ?>
                 <hr>
                 <p><?=$postsRS["post_content"]?></p>
+                <?php
+                if (isset($_SESSION["loggedUsername"])) {
+                    ?>
+                    <hr>
+                    <b><i class="fa fa-cogs"></i>&nbsp;&nbsp;ADMIN TOOLS:</b>&nbsp;&nbsp;<a href="admin/posts.php?source=edit&pid=<?=$postId?>">Edit Post</a>
+                    <?php
+                }
+                ?>
                 <hr>
                 <ul class="pager">
                     <li class="previous">
