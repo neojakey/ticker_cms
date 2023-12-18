@@ -7,6 +7,7 @@ if (isset($_POST["hidUserId"])) {
     $userFirstName = $_POST["tbFirstname"];
     $userLastName = $_POST["tbLastname"];
     $userEmail = $_POST["tbEmail"];
+    $userPassword = $_POST["tbPassword"];
     $userImage = $_FILES["fileImage"]["name"];
     $userImageTemp = $_FILES["fileImage"]["tmp_name"];
     $userRole = $_POST["ddRole"];
@@ -17,28 +18,43 @@ if (isset($_POST["hidUserId"])) {
     $userLastName = mysqli_real_escape_string($connection, $userLastName);
     $userEmail = mysqli_real_escape_string($connection, $userEmail);
 
+    /* PREPARE PASSWORD */
+    $passwordSQL = "";
+    if (!empty($userPassword)) {
+        /* SANITIZE PASSWORD */
+        $userPassword = mysqli_real_escape_string($connection, $userPassword);
+
+        /* GET PASSWORD SALT */
+        $query = "SELECT salt_value FROM salt WHERE salt_id = 1";
+        $response = mysqli_query($connection, $query);
+        if (!$response) {
+            die("Get User Salt Failed: " . mysqli_error($connection));
+        }
+        $saltRS = mysqli_fetch_array($response);
+        $randSalt = $saltRS["salt_value"];
+
+        /* ENCRYPT PASSWORD */
+        $userPassword = crypt($userPassword, $randSalt);
+
+        /* GENERATE SQL */
+        $passwordSQL = "user_password = '{$userPassword}',";
+    }
+
     /* UPLOAD IMAGE IF FOUND */
+    $imageSQL = "";
     if (!empty($userImage)) { // IMAGE WAS INCLUDED
         move_uploaded_file($userImageTemp, "../images/users/$userImage");
-        /* UPDATE POST IN THE DATABASE */
-        $query = <<<SQL
-            UPDATE users SET
-                username = '{$username}', user_firstname = '{$userFirstName}',
-                user_lastname = '{$userLastName}', user_image = '{$userImage}',
-                user_email = '{$userEmail}', user_role = '{$userRole}'
-            WHERE
-                user_id = $userId
-        SQL;
-    } else {
-        $query = <<<SQL
-            UPDATE users SET
-                username = '{$username}', user_firstname = '{$userFirstName}',
-                user_lastname = '{$userLastName}', user_email = '{$userEmail}',
-                user_role = '{$userRole}'
-            WHERE
-                user_id = $userId
-        SQL;
+        $imageSQL = "user_image = '{$userImage}',";
     }
+    /* UPDATE POST IN THE DATABASE */
+    $query = <<<SQL
+        UPDATE users SET
+            username = '{$username}', user_firstname = '{$userFirstName}',
+            user_lastname = '{$userLastName}', {$imageSQL}
+            {$passwordSQL} user_email = '{$userEmail}', user_role = '{$userRole}'
+        WHERE
+            user_id = $userId
+    SQL;
     $editUser = mysqli_query($connection, $query);
     if (!$editUser) {
         die("Edit User Failed: " . mysqli_error($connection));
@@ -64,6 +80,11 @@ $usersRS = mysqli_fetch_assoc($response);
     <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" class="form-control" id="username" name="tbUsername" value="<?=$usersRS["username"]?>"/>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="text" class="form-control" id="password" name="tbPassword">
+        <div style="margin-top:5px; color:#5bc0de; font-size:10px">(Only enter to change existing password, otherwise leave blank)</div>
     </div>
     <div class="row">
         <div class="form-group col-xs-6">
@@ -108,5 +129,6 @@ $usersRS = mysqli_fetch_assoc($response);
     </div>
     <div class="form-group" style="margin-top:15px">
         <button type="submit" class="btn btn-primary">Save User</button>
+        <button type="button" class="btn btn-cancel" onclick="location.href='./users.php';">Cancel</button>
     </div>
 </form>

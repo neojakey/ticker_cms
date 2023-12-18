@@ -9,10 +9,29 @@ if (isset($_POST["tbUsername"])) {
     $userImage = $_FILES["fileImage"]["name"];
     $userImageTemp = $_FILES["fileImage"]["tmp_name"];
 
+    /* SANITIZE INPUT */
+    $username = mysqli_real_escape_string($connection, $username);
+    $userFirstName = mysqli_real_escape_string($connection, $userFirstName);
+    $userLastName = mysqli_real_escape_string($connection, $userLastName);
+    $userEmail = mysqli_real_escape_string($connection, $userEmail);
+    $userPassword = mysqli_real_escape_string($connection, $userPassword);
+
+    /* GET PASSWORD SALT */
+    $query = "SELECT salt_value FROM salt WHERE salt_id = 1";
+    $response = mysqli_query($connection, $query);
+    if (!$response) {
+        die("Get User Salt Failed: " . mysqli_error($connection));
+    }
+    $saltRS = mysqli_fetch_array($response);
+    $randSalt = $saltRS["salt_value"];
+
+    /* ENCRYPT PASSWORD */
+    $userPassword = crypt($userPassword, $randSalt);
+
     /* UPLOAD IMAGE IF FOUND */
     move_uploaded_file($userImageTemp, "../images/users/$userImage");
 
-    /* SAVE POST TO THE DATABASE */
+    /* SAVE USER TO THE DATABASE */
     $query = <<<SQL
         INSERT INTO users(
             username,
@@ -24,7 +43,7 @@ if (isset($_POST["tbUsername"])) {
             user_role
         ) VALUE(
             '{$username}',
-            'admin',
+            '{$userPassword}',
             '{$userFirstName}',
             '{$userLastName}',
             '{$userEmail}',
@@ -44,6 +63,10 @@ if (isset($_POST["tbUsername"])) {
     <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" class="form-control" id="username" name="tbUsername"/>
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="text" class="form-control" id="password" name="tbPassword">
     </div>
     <div class="row">
         <div class="form-group col-xs-6">
@@ -72,6 +95,7 @@ if (isset($_POST["tbUsername"])) {
         <input type="file" id="user-image" name="fileImage"/>
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save Post</button>
+        <button type="submit" class="btn btn-primary">Save User</button>
+        <button type="button" class="btn btn-cancel" onclick="location.href='./users.php';">Cancel</button>
     </div>
 </form>

@@ -54,31 +54,36 @@
                     $commentEmail = $_POST["tbCommentEmail"];
                     $commentContent = $_POST["taCommentContent"];
 
-                    /* SANITIZE INPUT */
-                    $commentAuthor = mysqli_real_escape_string($connection, $commentAuthor);
-                    $commentEmail = mysqli_real_escape_string($connection, $commentEmail);
-                    $commentContent = mysqli_real_escape_string($connection, $commentContent);
+                    if (!empty($commentAuthor) && !empty($commentEmail) && !empty($commentContent)) {
+                        /* SANITIZE INPUT */
+                        $commentAuthor = mysqli_real_escape_string($connection, $commentAuthor);
+                        $commentEmail = mysqli_real_escape_string($connection, $commentEmail);
+                        $commentContent = mysqli_real_escape_string($connection, $commentContent);
 
-                    $query = <<<SQL
-                        INSERT INTO comments(
-                            comment_author,
-                            comment_content,
-                            comment_email,
-                            comment_status,
-                            comment_date,
-                            comment_post_id
-                        ) VALUE(
-                            '{$commentAuthor}',
-                            '{$commentContent}',
-                            '{$commentEmail}',
-                            'New',
-                            now(),
-                            {$postId}
-                        )
-                    SQL;
-                    $add_comment = mysqli_query($connection, $query);
-                    if (!$add_comment) {
-                        die("Add Comment Failed: " . mysqli_error($connection));
+                        /* CREATE AND EXECUTE SQL */
+                        $query = <<<SQL
+                            INSERT INTO comments(
+                                comment_author,
+                                comment_content,
+                                comment_email,
+                                comment_status,
+                                comment_date,
+                                comment_post_id
+                            ) VALUE(
+                                '{$commentAuthor}',
+                                '{$commentContent}',
+                                '{$commentEmail}',
+                                'New',
+                                now(),
+                                {$postId}
+                            )
+                        SQL;
+                        $add_comment = mysqli_query($connection, $query);
+                        if (!$add_comment) {
+                            die("Add Comment Failed: " . mysqli_error($connection));
+                        }
+                    } else {
+                        echo "<script type=\"text/javascript\">alert('Please fill in all fields before submitting');</script>";
                     }
                 }
                 ?>
