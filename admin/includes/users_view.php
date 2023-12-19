@@ -55,7 +55,7 @@
                                                     </a>
                                                 </span>
                                                 <span>
-                                                    <a href="users.php?delete=<?=$usersRS["user_id"]?>" title="Click to delete user">
+                                                    <a href="javascript:void(0);" onclick="ConfirmUserDelete(<?=$usersRS['user_id']?>);" title="Click to delete user">
                                                         <i class="fa fa-fw fa-times"></i>
                                                     </a>
                                                 </span>

@@ -47,5 +47,12 @@
                 $('#save-alert').slideUp();
             }, 3000)
         }
-    })
+    });
+
+    function ConfirmUserDelete(userid) {
+        var agree = confirm('Are you sure you wish to delete this user?\n');
+        if (agree) {
+            document.location.href = 'users.php?delete=' + userid;
+        }
+    }
 </script>

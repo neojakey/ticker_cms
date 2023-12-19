@@ -5,8 +5,7 @@
         <div class="row">
             <div class="col-md-8">
                 <?php
-                if (isset($_POST['tbSearch'])) {
-                    $searchQuery = $_POST['tbSearch'];
+                if (isset($_GET["author"])) {
                     $postsSQL = <<<SQL
                         SELECT
                             p.post_id, p.post_title,
@@ -18,24 +17,10 @@
                             posts AS p
                             INNER JOIN categories AS c ON p.post_category_id = c.cat_id
                         WHERE
-                            post_tags
-                        LIKE
-                            '%$searchQuery%'
+                            p.post_author = '{$_GET["author"]}'
                     SQL;
                 } else {
-                    $postsSQL = <<<SQL
-                        SELECT
-                            p.post_id, p.post_title,
-                            p.post_author, p.post_date,
-                            p.post_image, c.cat_title,
-                            p.post_category_id AS cat_id,
-                            post_content
-                        FROM
-                            posts AS p
-                            INNER JOIN categories AS c ON p.post_category_id = c.cat_id
-                        WHERE
-                            post_tags
-                    SQL;
+                    header("Location: index.php");
                 }
                 $response = mysqli_query($connection, $postsSQL);
                 $numResult = mysqli_num_rows($response);
@@ -52,7 +37,7 @@
                             <a href="#"><?=$postsRS["post_title"]?></a>
                         </h2>
                         <p class="lead">
-                            by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["post_author"]?></a>
+                            All posts by <?=$postsRS["post_author"]?>
                         </p>
                         <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
                         <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
@@ -65,7 +50,7 @@
                         }
                         ?>
                         <hr>
-                        <p><?=$postsRS["post_content"]?></p>
+                        <p><?=substr($postsRS["post_content"], 0, 300)?>...</p>
                         <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
                         <hr>

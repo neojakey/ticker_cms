@@ -11,8 +11,28 @@
                                     $bulkQuery = "UPDATE posts SET post_status = 'Approved' WHERE post_id = {$checkboxValues}";
                                     $response = mysqli_query($connection, $bulkQuery);
                                     break;
+                                case "reset";
+                                    $bulkQuery = "UPDATE posts SET post_views = 0 WHERE post_id = {$checkboxValues}";
+                                    $response = mysqli_query($connection, $bulkQuery);
+                                    break;
                                 case "delete";
                                     $bulkQuery = "DELETE FROM posts WHERE post_id = {$checkboxValues}";
+                                    $response = mysqli_query($connection, $bulkQuery);
+                                    break;
+                                case "clone";
+                                    $bulkQuery = <<<SQL
+                                        INSERT INTO posts (
+                                            post_title, post_category_id, post_author, post_image,
+                                            post_content, post_tags, post_status, post_date
+                                        )
+                                        SELECT
+                                            post_title, post_category_id, post_author, post_image,
+                                            post_content, post_tags, post_status, post_date
+                                        FROM
+                                            posts
+                                        WHERE 
+                                            post_id = {$checkboxValues}
+                                    SQL;
                                     $response = mysqli_query($connection, $bulkQuery);
                                     break;
                             }
@@ -27,6 +47,8 @@
                                     <option value="draft">Draft</option>
                                     <option value="approve">Approve</option>
                                     <option value="delete">Delete</option>
+                                    <option value="clone">Clone</option>
+                                    <option value="reset">Reset Views</option>
                                 </select>
                             </div>
                             <div class="col-xs-4">
@@ -44,6 +66,7 @@
                                     <th>Author</th>
                                     <th>Status</th>
                                     <th>Comments</th>
+                                    <th>Views</th>
                                     <th>Date</th>
                                     <th>Tools</th>
                                 </tr>
@@ -60,10 +83,13 @@
                                         p.post_status,
                                         p.post_tags,
                                         p.post_date,
+                                        p.post_views,
                                         (SELECT COUNT(*) FROM comments WHERE comment_post_id = p.post_id) AS post_comment_count
                                     FROM
                                         posts AS p
                                         INNER JOIN categories AS c ON p.post_category_id = c.cat_id
+                                    ORDER BY
+                                        post_id DESC
                                 SQL;
                                 $response = mysqli_query($connection, $query);
                                 while($postsRS = mysqli_fetch_assoc($response)) {
@@ -71,10 +97,14 @@
                                     <tr>
                                         <td><input type="checkbox" class="checkBoxes" name="checkBoxArray[]" value="<?=$postsRS["post_id"]?>"></td>
                                         <?php
-                                        if (strpos($postsRS["post_image"], "http") > -1) {
-                                            echo "<td><img src=\"" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/></td>";
+                                        if (!empty($postsRS["post_image"])) {
+                                            if (strpos($postsRS["post_image"], "http") > -1) {
+                                                echo "<td><img src=\"" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/></td>";
+                                            } else {
+                                                echo "<td><img src=\"../images/" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/></td>";
+                                            }
                                         } else {
-                                            echo "<td><img src=\"../images/" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/></td>";
+                                            echo "<td>&nbsp;</td>";
                                         }
                                         ?>
                                         <td><a href="../post.php?pid=<?=$postsRS["post_id"]?>" target="_blank" rel="noopener noreferrer"><?=$postsRS["post_title"]?></a></td>
@@ -82,6 +112,7 @@
                                         <td><?=$postsRS["post_author"]?></td>
                                         <td><?=$postsRS["post_status"]?></td>
                                         <td><?=$postsRS["post_comment_count"]?></td>
+                                        <td><?=$postsRS["post_views"]?></td>
                                         <td><?=$postsRS["post_date"]?></td>
                                         <td style="width:30px">
                                             <div class="flex-icons">
@@ -101,7 +132,7 @@
                                                     </a>
                                                 </span>
                                                 <span>
-                                                    <a href="posts.php?delete=<?=$postsRS["post_id"]?>" title="Click to delete post">
+                                                    <a href="javascript:void(0);" onclick="ConfirmPostDelete(<?=$postsRS['post_id']?>);" title="Click to delete post">
                                                         <i class="fa fa-fw fa-times"></i>
                                                     </a>
                                                 </span>

@@ -11,6 +11,11 @@
                 } else {
                     $postId = $_GET["pid"];
                 }
+                /* INCREASE VIEW COUNT */
+                $postCountSQL = "UPDATE posts SET post_views = post_views + 1 WHERE post_id = " . $postId;
+                $response = mysqli_query($connection, $postCountSQL);
+
+                /* GET POST FROM THE DATABASE */
                 $postsSQL = "SELECT * FROM posts WHERE post_id = " . $postId;
                 $response = mysqli_query($connection, $postsSQL);
                 $postsRS = mysqli_fetch_assoc($response);
@@ -19,7 +24,7 @@
                 <p class="lead">
                     by <a href="index.php"><?=$postsRS["post_author"]?></a>
                 </p>
-                <p><span class="glyphicon glyphicon-time"></span> Posted on <?=$postsRS["post_date"]?></p>
+                <p><span class="glyphicon glyphicon-time"></span> Posted on <?=$postsRS["post_date"]?>&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-area-chart"></i>&nbsp;Views: <?=$postsRS["post_views"]?></p>
                 <hr>
                 <?php
                 if (strpos($postsRS["post_image"], "http") > -1) {

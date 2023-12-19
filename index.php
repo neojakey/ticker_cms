@@ -32,7 +32,7 @@
                         <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                     </h2>
                     <p class="lead">
-                        by <a href="index.php"><?=$postsRS["post_author"]?></a>
+                        by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["post_author"]?></a>
                     </p>
                     <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
                     <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
