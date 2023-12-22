@@ -9,6 +9,7 @@
                 <a class="navbar-brand" href="index.php">CMS Admin</a>
             </div>
             <ul class="nav navbar-right top-nav">
+                <li><a href="">Users Online: <span id="users-online"></span></a></li>
                 <li><a href="../">Home</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$_SESSION["loggedFirstname"] . " " . $_SESSION["loggedLastname"]?> <b class="caret"></b></a>

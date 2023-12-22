@@ -15,3 +15,13 @@ $(document).ready(function() {
         }
     });
 });
+
+function loadUsersOnline() {
+    $.get('includes/admin_functions.php?onlineusers=result', function (data) {
+        $('#users-online').html(data);
+    });
+}
+
+setInterval(function () {
+    loadUsersOnline();
+}, 1000);
