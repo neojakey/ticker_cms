@@ -16,13 +16,28 @@
                 $response = mysqli_query($connection, $postCountSQL);
 
                 /* GET POST FROM THE DATABASE */
-                $postsSQL = "SELECT * FROM posts WHERE post_id = " . $postId;
+                $postsSQL = <<<SQL
+                    SELECT
+                        p.post_title,
+                        p.post_image,
+                        p.post_content,
+                        p.post_date,
+                        p.post_views,
+                        p.post_author,
+                        u.user_firstname,
+                        u.user_lastname
+                    FROM
+                        posts AS p
+                        INNER JOIN users AS u ON p.post_author = u.user_id
+                    WHERE
+                        post_id = {$postId}
+                SQL;
                 $response = mysqli_query($connection, $postsSQL);
                 $postsRS = mysqli_fetch_assoc($response);
                 ?>
                 <h2><?=$postsRS["post_title"]?></h2>
                 <p class="lead">
-                    by <a href="index.php"><?=$postsRS["post_author"]?></a>
+                    by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></a>
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?=$postsRS["post_date"]?>&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-area-chart"></i>&nbsp;Views: <?=$postsRS["post_views"]?></p>
                 <hr>

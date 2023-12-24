@@ -8,14 +8,20 @@
                 if (isset($_GET["author"])) {
                     $postsSQL = <<<SQL
                         SELECT
-                            p.post_id, p.post_title,
-                            p.post_author, p.post_date,
-                            p.post_image, c.cat_title,
+                            p.post_id,
+                            p.post_title,
+                            p.post_author,
+                            p.post_date,
+                            p.post_image,
+                            c.cat_title,
                             p.post_category_id AS cat_id,
-                            post_content
+                            p.post_content,
+                            u.user_firstname,
+                            u.user_lastname
                         FROM
                             posts AS p
                             INNER JOIN categories AS c ON p.post_category_id = c.cat_id
+                            INNER JOIN users AS u ON p.post_author = u.user_id
                         WHERE
                             p.post_author = '{$_GET["author"]}'
                     SQL;
@@ -34,10 +40,10 @@
                             <small>An in-depth look at technology</small>
                         </h1>
                         <h2>
-                            <a href="#"><?=$postsRS["post_title"]?></a>
+                            <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                         </h2>
                         <p class="lead">
-                            All posts by <?=$postsRS["post_author"]?>
+                            post by <?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?>
                         </p>
                         <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
                         <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>

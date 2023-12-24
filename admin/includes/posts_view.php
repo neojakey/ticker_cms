@@ -84,10 +84,13 @@
                                         p.post_tags,
                                         p.post_date,
                                         p.post_views,
+                                        u.user_firstname,
+                                        u.user_lastname,
                                         (SELECT COUNT(*) FROM comments WHERE comment_post_id = p.post_id) AS post_comment_count
                                     FROM
                                         posts AS p
                                         INNER JOIN categories AS c ON p.post_category_id = c.cat_id
+                                        INNER JOIN users AS u ON p.post_author = u.user_id
                                     ORDER BY
                                         post_id DESC
                                 SQL;
@@ -109,7 +112,7 @@
                                         ?>
                                         <td><a href="../post.php?pid=<?=$postsRS["post_id"]?>" target="_blank" rel="noopener noreferrer"><?=$postsRS["post_title"]?></a></td>
                                         <td><?=$postsRS["cat_title"]?></td>
-                                        <td><?=$postsRS["post_author"]?></td>
+                                        <td><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></td>
                                         <td><?=$postsRS["post_status"]?></td>
                                         <td><a href="post_comments.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_comment_count"]?></a></td>
                                         <td><?=$postsRS["post_views"]?></td>

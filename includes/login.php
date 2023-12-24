@@ -26,6 +26,7 @@ if (isset($_POST["tbUsername"])) {
 
             if (password_verify($password, $userLoggedPassword)) {
                 $_SESSION["loggedUsername"] = $username;
+                $_SESSION["loggedUserId"] = $userLoggedId;
                 $_SESSION["loggedFirstname"] = $userLoggedFirstname;
                 $_SESSION["loggedLastname"] = $userLoggedLastname;
                 $_SESSION["loggedRole"] = $userLoggedRole;

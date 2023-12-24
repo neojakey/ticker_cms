@@ -18,10 +18,13 @@
                         p.post_image,
                         c.cat_title,
                         p.post_category_id AS cat_id,
-                        post_content
+                        p.post_content,
+                        u.user_firstname,
+                        u.user_lastname
                     FROM
                         posts AS p
                         INNER JOIN categories AS c ON p.post_category_id = c.cat_id
+                        INNER JOIN users AS u ON p.post_author = u.user_id
                     WHERE
                         p.post_category_id = {$_GET["cid"]}
                         AND p.post_status = 'Approved'
@@ -37,7 +40,7 @@
                         <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                     </h2>
                     <p class="lead">
-                        by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["post_author"]?></a>
+                        by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></a>
                     </p>
                     <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
                     <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>

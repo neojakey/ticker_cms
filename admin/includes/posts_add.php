@@ -27,7 +27,7 @@ if (isset($_POST["tbTitle"])) {
         ) VALUE(
             '{$postTitle}',
             {$postCategoryId},
-            '{$postAuthor}',
+            {$postAuthor},
             now(),
             '{$postImage}',
             '{$postContent}',
@@ -63,7 +63,24 @@ if (isset($_POST["tbTitle"])) {
     </div>
     <div class="form-group">
         <label for="author">Post Author</label>
-        <input type="text" class="form-control" id="author" name="tbAuthor"/>
+        <select class="form-control" id="author" name="tbAuthor">
+            <option value="">Select One...</option>
+            <?php
+            $query = "SELECT user_firstname, user_lastname, user_id, username FROM users";
+            $response = mysqli_query($connection, $query);
+            while($users = mysqli_fetch_assoc($response)) {
+                $fullName = $users["user_firstname"] . " " . $users["user_lastname"];
+                if (empty($users["user_firstname"])) {
+                    $fullName = "Unknown User";
+                }
+                if (intval($users["user_id"]) === intval($_SESSION["loggedUserId"])) {
+                    echo "<option value=\"" . $users["user_id"] . "\" selected=\"selected\">" . $fullName . " - [" . $users["username"] . "]</option>";
+                } else {
+                    echo "<option value=\"" . $users["user_id"] . "\">" . $fullName . " - [" . $users["username"] . "]</option>";
+                }
+            }
+            ?>
+        </select>
     </div>
     <div class="form-group">
         <label for="status">Post Status</label>

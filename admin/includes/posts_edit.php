@@ -25,7 +25,7 @@ if (isset($_POST["hidPostId"])) {
         $query = <<<SQL
             UPDATE posts SET
                 post_title = '{$postTitle}', post_category_id = {$postCategoryId},
-                post_author = '{$postAuthor}', post_image = '{$postImage}',
+                post_author = {$postAuthor}, post_image = '{$postImage}',
                 post_content = '{$postContent}', post_tags = '{$postTags}',
                 post_status = '{$postStatus}'
             WHERE
@@ -35,7 +35,7 @@ if (isset($_POST["hidPostId"])) {
         $query = <<<SQL
             UPDATE posts SET
                 post_title = '{$postTitle}', post_category_id = {$postCategoryId},
-                post_author = '{$postAuthor}', post_content = '{$postContent}',
+                post_author = {$postAuthor}, post_content = '{$postContent}',
                 post_tags = '{$postTags}', post_status = '{$postStatus}'
             WHERE
                 post_id = $postId
@@ -87,7 +87,24 @@ $postsRS = mysqli_fetch_assoc($response);
     </div>
     <div class="form-group">
         <label for="author">Post Author</label>
-        <input type="text" class="form-control" id="author" name="tbAuthor" value="<?=$postsRS["post_author"]?>"/>
+        <select class="form-control" id="author" name="tbAuthor">
+            <option value="">Select One...</option>
+            <?php
+            $query = "SELECT user_firstname, user_lastname, user_id, username FROM users";
+            $response = mysqli_query($connection, $query);
+            while($users = mysqli_fetch_assoc($response)) {
+                $fullName = $users["user_firstname"] . " " . $users["user_lastname"];
+                if (empty($users["user_firstname"])) {
+                    $fullName = "Unknown User";
+                }
+                if (intval($users["user_id"]) === intval($postsRS["post_author"])) {
+                    echo "<option value=\"" . $users["user_id"] . "\" selected=\"selected\">" . $fullName . " - [" . $users["username"] . "]</option>";
+                } else {
+                    echo "<option value=\"" . $users["user_id"] . "\">" . $fullName . " - [" . $users["username"] . "]</option>";
+                }
+            }
+            ?>
+        </select>
     </div>
     <div class="form-group">
         <label for="status">Post Status</label>
