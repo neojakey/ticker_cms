@@ -111,7 +111,7 @@
                                         <td><?=$postsRS["cat_title"]?></td>
                                         <td><?=$postsRS["post_author"]?></td>
                                         <td><?=$postsRS["post_status"]?></td>
-                                        <td><?=$postsRS["post_comment_count"]?></td>
+                                        <td><a href="post_comments.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_comment_count"]?></a></td>
                                         <td><?=$postsRS["post_views"]?></td>
                                         <td><?=$postsRS["post_date"]?></td>
                                         <td style="width:30px">

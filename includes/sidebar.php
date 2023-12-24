@@ -20,11 +20,11 @@
                         <form action="includes/login.php" method="post">
                             <div class="form-group">
                                 <label for="login-username">Username:</label>
-                                <input type="text" name="tbUsername" id="login-username" class="form-control">
+                                <input type="text" autocomplete="off" name="tbUsername" id="login-username" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="login-password">Password:</label>
-                                <input type="password" name="tbPassword" id="login-password" class="form-control">
+                                <input type="password" autocomplete="off" name="tbPassword" id="login-password" class="form-control">
                             </div>
                             <button type="submit" class="btn btn-primary">Log In</button>
                         </form>

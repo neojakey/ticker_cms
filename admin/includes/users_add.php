@@ -16,17 +16,8 @@ if (isset($_POST["tbUsername"])) {
     $userEmail = mysqli_real_escape_string($connection, $userEmail);
     $userPassword = mysqli_real_escape_string($connection, $userPassword);
 
-    /* GET PASSWORD SALT */
-    $query = "SELECT salt_value FROM salt WHERE salt_id = 1";
-    $response = mysqli_query($connection, $query);
-    if (!$response) {
-        die("Get User Salt Failed: " . mysqli_error($connection));
-    }
-    $saltRS = mysqli_fetch_array($response);
-    $randSalt = $saltRS["salt_value"];
-
-    /* ENCRYPT PASSWORD */
-    $userPassword = crypt($userPassword, $randSalt);
+    /* SECURE PASSWORD WITH HASH */
+    $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));
 
     /* UPLOAD IMAGE IF FOUND */
     move_uploaded_file($userImageTemp, "../images/users/$userImage");

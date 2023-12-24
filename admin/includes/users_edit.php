@@ -24,17 +24,8 @@ if (isset($_POST["hidUserId"])) {
         /* SANITIZE PASSWORD */
         $userPassword = mysqli_real_escape_string($connection, $userPassword);
 
-        /* GET PASSWORD SALT */
-        $query = "SELECT salt_value FROM salt WHERE salt_id = 1";
-        $response = mysqli_query($connection, $query);
-        if (!$response) {
-            die("Get User Salt Failed: " . mysqli_error($connection));
-        }
-        $saltRS = mysqli_fetch_array($response);
-        $randSalt = $saltRS["salt_value"];
-
-        /* ENCRYPT PASSWORD */
-        $userPassword = crypt($userPassword, $randSalt);
+        /* SECURE PASSWORD WITH HASH */
+        $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));
 
         /* GENERATE SQL */
         $passwordSQL = "user_password = '{$userPassword}',";
@@ -63,17 +54,21 @@ if (isset($_POST["hidUserId"])) {
     }
 }
 
-$query = <<<SQL
-    SELECT
-        user_id, user_image, username, user_firstname,
-        user_lastname, user_email, user_role
-    FROM
-        users
-    WHERE
-        user_id = {$_GET["uid"]}
-SQL;
-$response = mysqli_query($connection, $query);
-$usersRS = mysqli_fetch_assoc($response);
+if (isset($_GET["uid"])) {
+    $query = <<<SQL
+        SELECT
+            user_id, user_image, username, user_firstname,
+            user_lastname, user_email, user_role
+        FROM
+            users
+        WHERE
+            user_id = {$_GET["uid"]}
+    SQL;
+    $response = mysqli_query($connection, $query);
+    $usersRS = mysqli_fetch_assoc($response);
+} else {
+    header("Location: index.php");
+}
 ?>
 <form action="" method="post" enctype="multipart/form-data">
     <input type="hidden" name="hidUserId" value="<?=$_GET["uid"]?>"/>
@@ -83,7 +78,7 @@ $usersRS = mysqli_fetch_assoc($response);
     </div>
     <div class="form-group">
         <label for="password">Password:</label>
-        <input type="text" class="form-control" id="password" name="tbPassword">
+        <input type="text" autocomplete="off" class="form-control" id="password" name="tbPassword">
         <div style="margin-top:5px; color:#5bc0de; font-size:10px">(Only enter to change existing password, otherwise leave blank)</div>
     </div>
     <div class="row">

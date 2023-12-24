@@ -17,9 +17,16 @@
                     while($categoriesRS = mysqli_fetch_assoc($response)) {
                         echo "<li><a href=\"#\">" . $categoriesRS["cat_title"] . "</a></li>";
                     }
+                    if (isset($_SESSION["loggedRole"])) {
+                        if ($_SESSION["loggedRole"] == 'Subscriber') {
+                            ?><li><a href="./includes/logout.php">Log Out</a></li><?php
+                        } else {
+                            ?><li><a href="./admin/">Admin</a></li><?php
+                        }
+                    } else {
+                        ?><li><a href="./registration.php">Registration</a></li><?php
+                    }
                     ?>
-                    <li><a href="./admin/">Admin</a></li>
-                    <li><a href="./registration.php">Registration</a></li>
                 </ul>
             </div>
         </div>
