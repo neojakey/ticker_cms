@@ -4,6 +4,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                <h1 class="page-header">
+                    Scoping Tech
+                    <small>An in-depth look at technology</small>
+                </h1>
                 <?php
                 /* DEFINE AND SET PAGINATION VARIABLES */
                 $pg = 1;
@@ -55,10 +59,6 @@
                 $response = mysqli_query($connection, $postsSQL);
                 while($postsRS = mysqli_fetch_assoc($response)) {
                     ?>
-                    <h1 class="page-header">
-                        Scoping Tech
-                        <small>An in-depth look at technology</small>
-                    </h1>
                     <h2>
                         <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                     </h2>

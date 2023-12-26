@@ -1,10 +1,14 @@
 <?php include "includes/db.php" ?>
 <?php include "includes/header.php" ?>
-    <?php include "includes/navigation.php" ?>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <?php
+<?php include "includes/navigation.php" ?>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="page-header">
+                Scoping Tech
+                <small>An in-depth look at technology</small>
+            </h1>
+            <?php
                 /* CHECK ID IS BEING PASSED IF NOT RE-DIRECT USER */
                 if (!isset($_GET["cid"]) || empty($_GET["cid"])) {
                     header("Location: index.php");
@@ -32,10 +36,6 @@
                 $response = mysqli_query($connection, $postsSQL);
                 while($postsRS = mysqli_fetch_assoc($response)) {
                     ?>
-                    <h1 class="page-header">
-                        Scoping Tech
-                        <small>An in-depth look at technology</small>
-                    </h1>
                     <h2>
                         <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                     </h2>

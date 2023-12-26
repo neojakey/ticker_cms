@@ -1,4 +1,5 @@
 <?php include "./db.php"; ?>
+<?php include "./functions.php"; ?>
 <?php session_start(); ?>
 <?php
 if (isset($_POST["tbUsername"])) {
@@ -7,8 +8,8 @@ if (isset($_POST["tbUsername"])) {
     $password = $_POST["tbPassword"];
 
     /* SANITIZE INPUT */
-    $username = mysqli_real_escape_string($connection, $username);
-    $password = mysqli_real_escape_string($connection, $password);
+    $username = escape($username);
+    $password = escape($password);
 
     $query = "SELECT * FROM users WHERE username = '{$username}'";
     $response = mysqli_query($connection, $query);

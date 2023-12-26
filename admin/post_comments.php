@@ -10,7 +10,7 @@
                             header("Location: index.php");
                         } else {
                             $pid = $_GET["pid"];
-                            $pid = mysqli_real_escape_string($connection, $pid);
+                            $pid = escape($pid);
 
                             $postsSQL = "SELECT post_title FROM posts WHERE post_id = " . $pid;
                             $response = mysqli_query($connection, $postsSQL);

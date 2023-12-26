@@ -70,8 +70,12 @@
                         <?php
                         /* DELETE USER */
                         if (isset($_GET["delete"])) {
-                            $deleteSQL = "DELETE FROM users WHERE user_id = " . $_GET['delete'];
-                            $deleteRS = mysqli_query($connection, $deleteSQL);
-                            header("Location: users.php");
+                            if (isset($_SESSION["loggedRole"])) {
+                                if ($_SESSION["loggedRole"] === "Admin") {
+                                    $deleteSQL = "DELETE FROM users WHERE user_id = " . $_GET['delete'];
+                                    $deleteRS = mysqli_query($connection, $deleteSQL);
+                                    header("Location: users.php");
+                                }
+                            }
                         }
                         ?>

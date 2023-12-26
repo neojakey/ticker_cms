@@ -4,26 +4,17 @@
     if (isset($_POST["hidUserId"])) {
         /* DECLARE AND SET VARIABLES */
         $userId = $_POST["hidUserId"];
-        $username = $_POST["tbUsername"];
-        $userFirstName = $_POST["tbFirstname"];
-        $userLastName = $_POST["tbLastname"];
-        $userEmail = $_POST["tbEmail"];
-        $userPassword = $_POST["tbPassword"];
+        $username = escape($_POST["tbUsername"]);
+        $userFirstName = escape($_POST["tbFirstname"]);
+        $userLastName = escape($_POST["tbLastname"]);
+        $userEmail = escape($_POST["tbEmail"]);
+        $userPassword = escape($_POST["tbPassword"]);
         $userImage = $_FILES["fileImage"]["name"];
         $userImageTemp = $_FILES["fileImage"]["tmp_name"];
-
-        /* SANITIZE INPUT */
-        $username = mysqli_real_escape_string($connection, $username);
-        $userFirstName = mysqli_real_escape_string($connection, $userFirstName);
-        $userLastName = mysqli_real_escape_string($connection, $userLastName);
-        $userEmail = mysqli_real_escape_string($connection, $userEmail);
 
         /* PREPARE PASSWORD */
         $passwordSQL = "";
         if (!empty($userPassword)) {
-            /* SANITIZE PASSWORD */
-            $userPassword = mysqli_real_escape_string($connection, $userPassword);
-
             /* SECURE PASSWORD WITH HASH */
             $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));
 

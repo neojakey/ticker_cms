@@ -70,16 +70,11 @@
                 <?php
                 if (isset($_POST["tbCommentAuthor"])) {
                     /* DECLARE AND SET VARIABLES */
-                    $commentAuthor = $_POST["tbCommentAuthor"];
-                    $commentEmail = $_POST["tbCommentEmail"];
-                    $commentContent = $_POST["taCommentContent"];
+                    $commentAuthor = escape($_POST["tbCommentAuthor"]);
+                    $commentEmail = escape($_POST["tbCommentEmail"]);
+                    $commentContent = escape($_POST["taCommentContent"]);
 
                     if (!empty($commentAuthor) && !empty($commentEmail) && !empty($commentContent)) {
-                        /* SANITIZE INPUT */
-                        $commentAuthor = mysqli_real_escape_string($connection, $commentAuthor);
-                        $commentEmail = mysqli_real_escape_string($connection, $commentEmail);
-                        $commentContent = mysqli_real_escape_string($connection, $commentContent);
-
                         /* CREATE AND EXECUTE SQL */
                         $query = <<<SQL
                             INSERT INTO comments(

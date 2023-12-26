@@ -1,20 +1,14 @@
 <?php
 if (isset($_POST["tbUsername"])) {
     /* DECLARE AND SET VARIABLES */
-    $username = $_POST["tbUsername"];
-    $userFirstName = $_POST["tbFirstname"];
-    $userLastName = $_POST["tbLastname"];
-    $userEmail = $_POST["tbEmail"];
+    $username = escape($_POST["tbUsername"]);
+    $userFirstName = escape($_POST["tbFirstname"]);
+    $userLastName = escape($_POST["tbLastname"]);
+    $userEmail = escape($_POST["tbEmail"]);
     $userRole = $_POST["ddRole"];
     $userImage = $_FILES["fileImage"]["name"];
     $userImageTemp = $_FILES["fileImage"]["tmp_name"];
-
-    /* SANITIZE INPUT */
-    $username = mysqli_real_escape_string($connection, $username);
-    $userFirstName = mysqli_real_escape_string($connection, $userFirstName);
-    $userLastName = mysqli_real_escape_string($connection, $userLastName);
-    $userEmail = mysqli_real_escape_string($connection, $userEmail);
-    $userPassword = mysqli_real_escape_string($connection, $userPassword);
+    $userPassword = escape($_POST["tbPassword"]);
 
     /* SECURE PASSWORD WITH HASH */
     $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));

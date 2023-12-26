@@ -9,9 +9,9 @@ if (isset($_POST["tbUsername"])) {
 
     if (!empty($username) && !empty($userEmail) && !empty($userPassword)) {
         /* SANITIZE INPUT */
-        $username = mysqli_real_escape_string($connection, $username);
-        $userEmail = mysqli_real_escape_string($connection, $userEmail);
-        $userPassword = mysqli_real_escape_string($connection, $userPassword);
+        $username = escape($username);
+        $userEmail = escape($userEmail);
+        $userPassword = escape($userPassword);
 
         /* SECURE PASSWORD WITH HASH */
         $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));

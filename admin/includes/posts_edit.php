@@ -3,20 +3,14 @@
 if (isset($_POST["hidPostId"])) {
     /* DECLARE AND SET VARIABLES */
     $postId = $_POST["hidPostId"];
-    $postTitle = $_POST["tbTitle"];
+    $postTitle = escape($_POST["tbTitle"]);
     $postCategoryId = $_POST["ddCategoryId"];
-    $postAuthor = $_POST["tbAuthor"];
+    $postAuthor = escape($_POST["tbAuthor"]);
     $postStatus = $_POST["ddStatus"];
     $postImage = $_FILES["fileImage"]["name"];
     $postImageTemp = $_FILES["fileImage"]["tmp_name"];
-    $postTags = $_POST["tbTags"];
-    $postContent = $_POST["taContent"];
-
-    /* SANITIZE INPUT */
-    $postTitle = mysqli_real_escape_string($connection, $postTitle);
-    $postAuthor = mysqli_real_escape_string($connection, $postAuthor);
-    $postTags = mysqli_real_escape_string($connection, $postTags);
-    $postContent = mysqli_real_escape_string($connection, $postContent);
+    $postTags = escape($_POST["tbTags"]);
+    $postContent = escape($_POST["taContent"]);
 
     /* UPLOAD IMAGE IF FOUND */
     if (!empty($postImage)) { // IMAGE WAS INCLUDED
