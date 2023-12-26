@@ -50,9 +50,8 @@
     })
 
     function ConfirmPostDelete(postid) {
-        var agree = confirm('Are you sure you wish to delete this post?\n');
-        if (agree) {
-            document.location.href = 'posts.php?delete=' + postid;
-        }
+        var deleteLink = 'posts.php?delete=' + postid;
+        $('#modal-delete').attr("href", deleteLink);
+        $('#confirm-delete-post').modal('show');
     }
 </script>

@@ -27,6 +27,7 @@
                         ?><li><a href="./registration.php">Registration</a></li><?php
                     }
                     ?>
+                    <li><a href="./contact.php">Contact Us</a></li>
                 </ul>
             </div>
         </div>

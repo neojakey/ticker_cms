@@ -37,6 +37,12 @@
                         <div class="col-lg-12">
                             <ul class="list-unstyled">
                                 <?php
+                                /* MODIFY SQL BASED ON USER ROLE */
+                                $approvedSQL = "AND post_status = 'Approved'";
+                                if (isset($_SESSION["loggedRole"]) && $_SESSION["loggedRole"] == "Admin") {
+                                    $approvedSQL = "";
+                                }
+
                                 $query = <<<SQL
                                     SELECT
                                         cat_id,
@@ -47,6 +53,7 @@
                                             posts
                                         WHERE
                                             post_category_id = c.cat_id
+                                            {$approvedSQL}
                                         ) AS post_count
                                     FROM
                                         categories AS c
