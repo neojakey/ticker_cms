@@ -13,10 +13,9 @@
                     </form>
                 </div>
                 <?php
-                if (!isset($_SESSION["loggedRole"])) {
-                    ?>
+                if (!isset($_SESSION["loggedRole"])): ?>
                     <div class="well">
-                        <h4>Login</h4>
+                        <h4>Login Session</h4>
                         <form action="includes/login.php" method="post">
                             <div class="form-group">
                                 <label for="login-username">Username:</label>
@@ -29,8 +28,13 @@
                             <button type="submit" class="btn btn-primary">Log In</button>
                         </form>
                     </div>
-                    <?php
-                } ?>
+                <?php else: ?>
+                    <div class="well">
+                        <h4>Logout Session</h4>
+                        <p>Logged in as <?=$_SESSION["loggedFirstname"]?></p>
+                        <a href="./includes/logout.php" class="btn btn-primary">Logout</a>
+                    </div>
+                <?php endif; ?>
                 <div class="well">
                     <h4>Blog Categories</h4>
                     <div class="row">

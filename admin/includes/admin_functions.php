@@ -4,6 +4,22 @@ function escape($string) {
     return mysqli_real_escape_string($connection, trim($string));
 }
 
+function recordCount($tableName) {
+    global $connection;
+    $query = "SELECT COUNT(*) AS count_result FROM {$tableName}";
+    $response =  mysqli_query($connection, $query);
+    $countRS = mysqli_fetch_assoc($response);
+    return $countRS["count_result"];
+}
+
+function customRecordCount($tableName, $fieldName, $status) {
+    global $connection;
+    $query = "SELECT COUNT(*) AS count_result FROM {$tableName} WHERE {$fieldName} = '{$status}'";
+    $response =  mysqli_query($connection, $query);
+    $countRS = mysqli_fetch_assoc($response);
+    return $countRS["count_result"];
+}
+
 function users_online() {
     if (isset($_GET["onlineusers"])) {
         global $connection;

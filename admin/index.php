@@ -12,9 +12,12 @@
                     </div>
                 </div>
                 <?php
-                $query = "SELECT COUNT(*) AS post_count FROM posts WHERE post_status <> 'Draft'";
-                $response = mysqli_query($connection, $query);
-                $postsRS = mysqli_fetch_assoc($response);
+                $approvedPostCount = customRecordCount("posts", "post_status", "Approved");
+                $draftPostCount = customRecordCount("posts", "post_status", "Draft");
+                $newCommentCount = customRecordCount("comments", "comment_status", "New");
+                $commentCount = recordCount("comments");
+                $userCount = recordCount("users");
+                $catCount = recordCount("categories");
                 ?>
                 <div class="row">
                     <div class="col-lg-3 col-md-6">
@@ -25,7 +28,7 @@
                                         <i class="fa fa-file-text fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                  <div class="huge"><?=$postsRS["post_count"]?></div>
+                                  <div class="huge"><?=$approvedPostCount?></div>
                                         <div>Posts</div>
                                     </div>
                                 </div>
@@ -39,11 +42,6 @@
                             </a>
                         </div>
                     </div>
-                    <?php
-                    $query = "SELECT COUNT(*) AS comment_count FROM comments WHERE comment_status <> 'New'";
-                    $response = mysqli_query($connection, $query);
-                    $commentsRS = mysqli_fetch_assoc($response);
-                    ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-green">
                             <div class="panel-heading">
@@ -52,7 +50,7 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                     <div class="huge"><?=$commentsRS["comment_count"]?></div>
+                                     <div class="huge"><?=$commentCount?></div>
                                       <div>Comments</div>
                                     </div>
                                 </div>
@@ -66,11 +64,6 @@
                             </a>
                         </div>
                     </div>
-                    <?php
-                    $query = "SELECT COUNT(*) AS user_count FROM users";
-                    $response = mysqli_query($connection, $query);
-                    $usersRS = mysqli_fetch_assoc($response);
-                    ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-yellow">
                             <div class="panel-heading">
@@ -79,7 +72,7 @@
                                         <i class="fa fa-user fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <div class="huge"><?=$usersRS["user_count"]?></div>
+                                    <div class="huge"><?=$userCount?></div>
                                         <div> Users</div>
                                     </div>
                                 </div>
@@ -93,11 +86,6 @@
                             </a>
                         </div>
                     </div>
-                    <?php
-                    $query = "SELECT COUNT(*) AS category_count FROM categories";
-                    $response = mysqli_query($connection, $query);
-                    $categoriesRS = mysqli_fetch_assoc($response);
-                    ?>
                     <div class="col-lg-3 col-md-6">
                         <div class="panel panel-red">
                             <div class="panel-heading">
@@ -106,7 +94,7 @@
                                         <i class="fa fa-list fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge"><?=$categoriesRS["category_count"]?></div>
+                                        <div class="huge"><?=$catCount?></div>
                                          <div>Categories</div>
                                     </div>
                                 </div>
@@ -121,16 +109,6 @@
                         </div>
                     </div>
                 </div>
-                <?php
-                $query = "SELECT COUNT(*) AS draft_post_count FROM posts WHERE post_status = 'Draft'";
-                $response = mysqli_query($connection, $query);
-                $draftPostsRS = mysqli_fetch_assoc($response);
-
-                $query = "SELECT COUNT(*) AS new_comment_count FROM comments WHERE comment_status = 'New'";
-                $response = mysqli_query($connection, $query);
-                $newCommentsRS = mysqli_fetch_assoc($response);
-
-                ?>
                 <div class="row" style="padding-left:15px; padding-right:15px">
                     <script type="text/javascript">
                         google.charts.load('current', {'packages':['bar']});
@@ -140,7 +118,7 @@
                             var data = google.visualization.arrayToDataTable([
                                 <?php
                                 $element_text = ['Active Posts', 'Draft Posts', 'Comments', 'New Comments', 'Users', 'Categories'];
-                                $element_count = [$postsRS["post_count"], $draftPostsRS["draft_post_count"], $commentsRS["comment_count"], $newCommentsRS["new_comment_count"], $usersRS["user_count"], $categoriesRS["category_count"]];
+                                $element_count = [$approvedPostCount, $draftPostCount, $commentCount, $newCommentCount, $userCount, $catCount];
                                 for ($i = 0; $i < 6; $i++) {
                                     echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
                                 }
