@@ -68,20 +68,20 @@
                         if (isset($_GET["approve"])) {
                             $approveSQL = "UPDATE comments SET comment_status = 'Approved' WHERE comment_id = " . $_GET['approve'];
                             $approveRS = mysqli_query($connection, $approveSQL);
-                            header("Location: comments.php");
+                            redirect("comments.php");
                         }
 
                         /* DECLINE COMMENT */
                         if (isset($_GET["decline"])) {
                             $declineSQL = "UPDATE comments SET comment_status = 'Declined' WHERE comment_id = " . $_GET['decline'];
                             $declineRS = mysqli_query($connection, $declineSQL);
-                            header("Location: comments.php");
+                            redirect("comments.php");
                         }
 
                         /* DELETE COMMENT */
                         if (isset($_GET["delete"])) {
                             $deleteSQL = "DELETE FROM comments WHERE comment_id = " . $_GET['delete'];
                             $deleteRS = mysqli_query($connection, $deleteSQL);
-                            header("Location: comments.php");
+                            redirect("comments.php");
                         }
                         ?>

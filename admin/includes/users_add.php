@@ -40,7 +40,7 @@ if (isset($_POST["tbUsername"])) {
     if (!$addUser) {
         die("Add User Failed: " . mysqli_error($connection));
     } else {
-        header("Location: users.php?n=y");
+        redirect("users.php?n=y");
     }
 }
 ?>

@@ -16,7 +16,7 @@
                 if (!isset($_SESSION["loggedRole"])): ?>
                     <div class="well">
                         <h4>Login Session</h4>
-                        <form action="<?=$root?>/includes/login.php" method="post">
+                        <form action="<?=$root?>/login" method="post">
                             <div class="form-group">
                                 <label for="login-username">Username:</label>
                                 <input type="text" autocomplete="off" name="tbUsername" id="login-username" class="form-control">

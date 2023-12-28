@@ -74,7 +74,7 @@
                                 if ($_SESSION["loggedRole"] === "Admin") {
                                     $deleteSQL = "DELETE FROM users WHERE user_id = " . $_GET['delete'];
                                     $deleteRS = mysqli_query($connection, $deleteSQL);
-                                    header("Location: users.php");
+                                    redirect("users.php");
                                 }
                             }
                         }

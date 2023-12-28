@@ -4,11 +4,11 @@
 <?php session_start(); ?>
 <?php
 if (!isset($_SESSION["loggedRole"])) {
-    header("Location: ../index.php");
+    redirect("../index.php");
 } else {
     /* PREVENT SUBSCRIBER FROM USING ADMIN TOOLS */
     if ($_SESSION["loggedRole"] == 'Subscriber') {
-        header("Location: ../index.php");
+        redirect("../index.php");
     }
 }
 

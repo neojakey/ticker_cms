@@ -39,7 +39,7 @@ if (isset($_POST["hidPostId"])) {
     if (!$editPost) {
         die("Edit Post Failed: " . mysqli_error($connection));
     } else {
-        header("Location: posts.php?e=y");
+        redirect("posts.php?e=y");
     }
 }
 

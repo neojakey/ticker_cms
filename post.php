@@ -7,7 +7,7 @@
                 <?php
                 /* CHECK ID IS BEING PASSED IF NOT RE-DIRECT USER */
                 if (!isset($_GET["pid"]) || empty($_GET["pid"])) {
-                    header("Location: index.php");
+                    redirect("index.php");
                 } else {
                     $postId = $_GET["pid"];
                 }

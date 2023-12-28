@@ -18,7 +18,7 @@
                                 /* DELETE CATEGORY QUERY */
                                 $deleteSQL = "DELETE FROM categories WHERE cat_id = " . $_GET['delete'];
                                 $deleteRS = mysqli_query($connection, $deleteSQL);
-                                header("Location: categories.php");
+                                redirect("categories.php");
                             }
 
                             if (isset($_POST["cat_title"])) {
@@ -36,7 +36,7 @@
                                         if (!$update_category) {
                                             die("Update Category Failed: " . mysqli_error($connection));
                                         }
-                                        header("Location: categories.php");
+                                        redirect("categories.php");
                                     } else {
                                         /* ADD QUERY */
                                         $query = "INSERT INTO categories(cat_title) VALUE('{$catTitle}')";

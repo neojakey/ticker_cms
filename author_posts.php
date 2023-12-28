@@ -30,7 +30,7 @@
                             p.post_author = '{$_GET["author"]}'
                     SQL;
                 } else {
-                    header("Location: index.php");
+                    redirect("index.php");
                 }
                 $response = mysqli_query($connection, $postsSQL);
                 $numResult = mysqli_num_rows($response);

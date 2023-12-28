@@ -1,5 +1,5 @@
-<?php  include "includes/db.php"; ?>
-<?php  include "includes/header.php"; ?>
+<?php include "includes/db.php"; ?>
+<?php include "includes/header.php"; ?>
 <?php
 $usernameError = ""; $emailError = ""; $passwordError = "";
 if (isset($_POST["tbUsername"])) {

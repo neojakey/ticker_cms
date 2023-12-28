@@ -39,7 +39,7 @@ if (isset($_POST["tbTitle"])) {
     if (!$addPost) {
         die("Add Post Failed: " . mysqli_error($connection));
     } else {
-        header("Location: posts.php?n=y");
+        redirect("posts.php?n=y");
     }
 }
 ?>

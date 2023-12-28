@@ -7,7 +7,7 @@
                     <div class="col-lg-12">
                         <?php
                         if (!isset($_GET["pid"])) {
-                            header("Location: index.php");
+                            redirect("index.php");
                         } else {
                             $pid = $_GET["pid"];
                             $pid = escape($pid);
@@ -106,21 +106,21 @@
                         if (isset($_GET["approve"])) {
                             $approveSQL = "UPDATE comments SET comment_status = 'Approved' WHERE comment_id = " . $_GET['approve'];
                             $approveRS = mysqli_query($connection, $approveSQL);
-                            header("Location: post_comments.php?pid=" . $pid);
+                            redirect("post_comments.php?pid=" . $pid);
                         }
 
                         /* DECLINE COMMENT */
                         if (isset($_GET["decline"])) {
                             $declineSQL = "UPDATE comments SET comment_status = 'Declined' WHERE comment_id = " . $_GET['decline'];
                             $declineRS = mysqli_query($connection, $declineSQL);
-                            header("Location: post_comments.php?pid=" . $pid);
+                            redirect("post_comments.php?pid=" . $pid);
                         }
 
                         /* DELETE COMMENT */
                         if (isset($_GET["delete"])) {
                             $deleteSQL = "DELETE FROM comments WHERE comment_id = " . $_GET['delete'];
                             $deleteRS = mysqli_query($connection, $deleteSQL);
-                            header("Location: post_comments.php?pid=" . $pid);
+                            redirect("post_comments.php?pid=" . $pid);
                         }
                         ?>
                     </div>

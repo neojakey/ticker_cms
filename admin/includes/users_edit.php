@@ -41,7 +41,7 @@ if (isset($_POST["hidUserId"])) {
     if (!$editUser) {
         die("Edit User Failed: " . mysqli_error($connection));
     } else {
-        header("Location: users.php?e=y");
+        redirect("users.php?e=y");
     }
 }
 
@@ -58,7 +58,7 @@ if (isset($_GET["uid"])) {
     $response = mysqli_query($connection, $query);
     $usersRS = mysqli_fetch_assoc($response);
 } else {
-    header("Location: index.php");
+    redirect("index.php");
 }
 ?>
 <form action="" method="post" enctype="multipart/form-data">

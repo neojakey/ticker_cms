@@ -20,23 +20,26 @@
                         if (isset($_GET["cid"]) && $_GET["cid"] == $categoriesRS["cat_id"]) {
                             $categoryClass = " active";
                         }
-                        echo "<li class=\"nav-link{$categoryClass}\"><a href=\"{$root}/category/{$categoriesRS["cat_id"]}\">{$categoriesRS["cat_title"]}</a></li>";
+                        ?>
+                        <li class="nav-link<?=$categoryClass?>"><a href="<?=$root?>/category/<?=$categoriesRS["cat_id"]?>"><?=$categoriesRS["cat_title"]?></a></li>
+                        <?php
                     }
-                    if (isset($_SESSION["loggedRole"])) {
-                        if (!$_SESSION["loggedIsAdmin"]) {
-                            ?><li><a href="<?=$root?>/includes/logout.php">Log Out</a></li><?php
-                        } else {
-                            ?>
-                            <li><a href="<?=$root?>/admin/">Admin</a></li>
-                            <li><a href="<?=$root?>/includes/logout.php">Log Out</a></li>
-                            <?php
+                    if (isLoggedIn()) {
+                        if ($_SESSION["loggedIsAdmin"]) {
+                            ?><li><a href="<?=$root?>/admin/">Admin</a></li><?php
                         }
+                        ?><li><a href="<?=$root?>/includes/logout.php">Log Out</a></li><?php
                     } else {
                         $registrationClass = "";
                         if ($pageName == "registration.php") {
                             $registrationClass = "active";
                         }
                         ?><li class="<?=$registrationClass?>"><a href="<?=$root?>/registration">Registration</a></li><?php
+                        $loginClass = "";
+                        if ($pageName == "login.php") {
+                            $loginClass = "active";
+                        }
+                        ?><li class="<?=$loginClass?>"><a href="<?=$root?>/login">Log In</a></li><?php
                     }
                     $contactClass = "";
                     if ($pageName == "contact.php") {

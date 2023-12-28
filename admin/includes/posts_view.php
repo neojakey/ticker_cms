@@ -155,20 +155,20 @@
                     if (isset($_GET["approve"])) {
                         $approveSQL = "UPDATE posts SET post_status = 'Approved' WHERE post_id = " . $_GET['approve'];
                         $approveRS = mysqli_query($connection, $approveSQL);
-                        header("Location: posts.php");
+                        redirect("posts.php");
                     }
 
                     /* DECLINE POST */
                     if (isset($_GET["decline"])) {
                         $declineSQL = "UPDATE posts SET post_status = 'Declined' WHERE post_id = " . $_GET['decline'];
                         $declineRS = mysqli_query($connection, $declineSQL);
-                        header("Location: posts.php");
+                        redirect("posts.php");
                     }
 
                     /* DELETE POST */
                     if (isset($_GET["delete"])) {
                         $deleteSQL = "DELETE FROM posts WHERE post_id = " . $_GET['delete'];
                         $deleteRS = mysqli_query($connection, $deleteSQL);
-                        header("Location: posts.php");
+                        redirect("posts.php");
                     }
                     ?>

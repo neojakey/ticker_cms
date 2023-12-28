@@ -11,7 +11,7 @@
             <?php
                 /* CHECK ID IS BEING PASSED IF NOT RE-DIRECT USER */
                 if (!isset($_GET["cid"]) || empty($_GET["cid"])) {
-                    header("Location: index.php");
+                    redirect("index.php");
                 }
 
                 /* MODIFY SQL BASED ON USER ROLE */
