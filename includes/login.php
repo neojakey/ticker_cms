@@ -26,11 +26,17 @@ if (isset($_POST["tbUsername"])) {
             $userLoggedRole = $userRS["user_role"];
 
             if (password_verify($password, $userLoggedPassword)) {
+                /* SET SESSION VARIABLES */
                 $_SESSION["loggedUsername"] = $username;
                 $_SESSION["loggedUserId"] = $userLoggedId;
                 $_SESSION["loggedFirstname"] = $userLoggedFirstname;
                 $_SESSION["loggedLastname"] = $userLoggedLastname;
                 $_SESSION["loggedRole"] = $userLoggedRole;
+
+                $_SESSION["loggedIsAdmin"] = false;
+                if ($userLoggedRole === "Admin") {
+                    $_SESSION["loggedIsAdmin"] = true;
+                }
 
                 header("Location: ../admin/index.php");
             } else {

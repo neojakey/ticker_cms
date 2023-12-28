@@ -23,7 +23,7 @@
                         echo "<li class=\"nav-link" . $categoryClass . "\"><a href=\"category.php?cid=" . $categoriesRS["cat_id"] . "\">" . $categoriesRS["cat_title"] . "</a></li>";
                     }
                     if (isset($_SESSION["loggedRole"])) {
-                        if ($_SESSION["loggedRole"] == 'Subscriber') {
+                        if (!$_SESSION["loggedIsAdmin"]) {
                             ?><li><a href="./includes/logout.php">Log Out</a></li><?php
                         } else {
                             ?>

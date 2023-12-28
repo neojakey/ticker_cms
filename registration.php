@@ -1,47 +1,68 @@
 <?php  include "includes/db.php"; ?>
 <?php  include "includes/header.php"; ?>
 <?php
+$usernameError = ""; $emailError = ""; $passwordError = "";
 if (isset($_POST["tbUsername"])) {
     /* DECLARE AND SET VARIABLES */
     $username = $_POST["tbUsername"];
     $userEmail = $_POST["tbEmail"];
     $userPassword = $_POST["tbPassword"];
 
+    /* DISPLAY MISSED ENTRIES ERRORS */
+    if (empty($username)) {
+        $usernameError = "Please enter the username";
+    }
+    if (empty($userEmail)) {
+        $emailError = "Please enter the email address";
+    }
+    if (empty($userPassword)) {
+        $passwordError = "Please enter the password";
+    }
+
     if (!empty($username) && !empty($userEmail) && !empty($userPassword)) {
-        /* SANITIZE INPUT */
-        $username = escape($username);
-        $userEmail = escape($userEmail);
-        $userPassword = escape($userPassword);
-
-        /* SECURE PASSWORD WITH HASH */
-        $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));
-
-        /* SAVE USER TO THE DATABASE */
-        $query = <<<SQL
-            INSERT INTO users(
-                username,
-                user_email,
-                user_password,
-                user_role
-            ) VALUE(
-                '{$username}',
-                '{$userEmail}',
-                '{$userPassword}',
-                'Subscriber'
-            )
-        SQL;
-        $addSubscriber = mysqli_query($connection, $query);
-        if (!$addSubscriber) {
-            die("Add Subscriber Failed: " . mysqli_error($connection));
+        if (usernameExists($username)) {
+            /* IF USERNAME EXISTS SHOW ERROR */
+            $message = "Username already exists, please try another";
+        } elseif (userEmailExists($userEmail)) {
+            /* IF EMAIL IS ALREADY ASSIGNED TO AN EXISTING USER */
+            $message = "User already exists with this email address. <a href=\"./index.php\" style=\"color:#A94442; text-decoration:underline\">Login here</a>";
         } else {
-            $messageSuccess = "You have been successfully registered";
+            /* SANITIZE INPUT */
+            $username = escape($username);
+            $userEmail = escape($userEmail);
+            $userPassword = escape($userPassword);
+
+            /* SECURE PASSWORD WITH HASH */
+            $userPassword = password_hash($userPassword, PASSWORD_BCRYPT, array('cost' => 10));
+
+            /* SAVE USER TO THE DATABASE */
+            $query = <<<SQL
+                INSERT INTO users(
+                    username,
+                    user_email,
+                    user_password,
+                    user_role
+                ) VALUE(
+                    '{$username}',
+                    '{$userEmail}',
+                    '{$userPassword}',
+                    'Subscriber'
+                )
+            SQL;
+            $addSubscriber = mysqli_query($connection, $query);
+            if (!$addSubscriber) {
+                die("Add Subscriber Failed: " . mysqli_error($connection));
+            } else {
+                $messageSuccess = "You have been successfully registered";
+                $username = "";
+                $userEmail = "";
+                $userPassword = "";
+            }
         }
-    } else {
-        $message = "Please fill in all fields before submitting";
     }
 } else {
-    $message = "";
-    $messageSuccess = "";
+    $message = ""; $messageSuccess = "";
+    $username = ""; $userEmail = ""; $userPassword = "";
 }
 ?>
 <style type="text/css">
@@ -70,15 +91,18 @@ if (isset($_POST["tbUsername"])) {
                             <?php } ?>
                             <div class="form-group">
                                 <label for="username">Username:</label>
-                                <input type="text" name="tbUsername" id="username" class="form-control">
+                                <input type="text" name="tbUsername" id="username" autocomplete="off" value="<?=$username?>" class="form-control">
+                                <small style="color:red"><?=$usernameError?></small>
                             </div>
                              <div class="form-group">
                                 <label for="email">Email Address:</label>
-                                <input type="email" name="tbEmail" id="email" class="form-control" placeholder="somebody@example.com">
+                                <input type="email" name="tbEmail" id="email" autocomplete="off" value="<?=$userEmail?>" class="form-control" placeholder="e.g. somebody@example.com">
+                                <small style="color:red"><?=$emailError?></small>
                             </div>
                              <div class="form-group">
                                 <label for="password">Password:</label>
-                                <input type="password" name="tbPassword" id="key" class="form-control">
+                                <input type="password" name="tbPassword" id="key" autocomplete="new-password" class="form-control">
+                                <small style="color:red"><?=$passwordError?></small>
                             </div>
 
                             <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">

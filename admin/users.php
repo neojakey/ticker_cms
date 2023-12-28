@@ -1,4 +1,7 @@
-<?php include "includes/admin_header.php" ?>
+<?php
+    include "includes/admin_header.php";
+    checkAdminSecurity();
+    ?>
     <div id="wrapper">
         <?php include "includes/admin_navigation.php" ?>
         <div id="page-wrapper">

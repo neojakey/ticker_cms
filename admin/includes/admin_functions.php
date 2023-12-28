@@ -20,6 +20,12 @@ function customRecordCount($tableName, $fieldName, $status) {
     return $countRS["count_result"];
 }
 
+function checkAdminSecurity() {
+    if (!$_SESSION["loggedIsAdmin"]) {
+        header("Location: ../index.php");
+    }
+}
+
 function users_online() {
     if (isset($_GET["onlineusers"])) {
         global $connection;
