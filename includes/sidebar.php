@@ -1,7 +1,7 @@
             <div class="col-md-4">
                 <div class="well">
                     <h4>Blog Search</h4>
-                    <form action="./search.php" method="post">
+                    <form action="<?=$root?>/search" method="post">
                         <div class="input-group">
                             <input type="text" name="tbSearch" class="form-control">
                             <span class="input-group-btn">
@@ -16,7 +16,7 @@
                 if (!isset($_SESSION["loggedRole"])): ?>
                     <div class="well">
                         <h4>Login Session</h4>
-                        <form action="includes/login.php" method="post">
+                        <form action="<?=$root?>/includes/login.php" method="post">
                             <div class="form-group">
                                 <label for="login-username">Username:</label>
                                 <input type="text" autocomplete="off" name="tbUsername" id="login-username" class="form-control">
@@ -32,7 +32,7 @@
                     <div class="well">
                         <h4>Logout Session</h4>
                         <p>Logged in as <?=$_SESSION["loggedFirstname"]?></p>
-                        <a href="./includes/logout.php" class="btn btn-primary">Logout</a>
+                        <a href="<?=$root?>/includes/logout.php" class="btn btn-primary">Logout</a>
                     </div>
                 <?php endif; ?>
                 <div class="well">
@@ -67,7 +67,7 @@
                                     $categoryId = $categoriesRS["cat_id"];
                                     $categoryTitle = $categoriesRS["cat_title"];
                                     $postCount = $categoriesRS["post_count"];
-                                    ?><li><a href="category.php?cid=<?=$categoryId?>"><?=$categoryTitle?></a>&nbsp;[<?=$postCount?>]</li><?php
+                                    echo "<li><a href=\"{$root}/category/{$categoryId}\">{$categoryTitle}</a>&nbsp;[{$postCount}]</li>";
                                 }
                                 ?>
                             </ul>

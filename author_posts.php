@@ -40,38 +40,29 @@
                     while($postsRS = mysqli_fetch_assoc($response)) {
                         ?>
                         <h2>
-                            <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
+                            <a href="<?=$root?>/post/<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                         </h2>
                         <p class="lead">
                             post by <?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?>
                         </p>
                         <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
-                        <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
+                        <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="<?=$root?>/category/<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
                         <hr>
                         <?php
                         if (strpos($postsRS["post_image"], "http") > -1) {
-                            echo "<img src=\"" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
+                            echo "<img src=\"{$postsRS["post_image"]}\" class=\"img-responsive\" alt=\"\"/>";
                         } else {
-                            echo "<img src=\"images/" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
+                            echo "<img src=\"{$root}/images/{$postsRS["post_image"]}\" class=\"img-responsive\" alt=\"\"/>";
                         }
                         ?>
                         <hr>
                         <p><?=substr($postsRS["post_content"], 0, 300)?>...</p>
-                        <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
-
+                        <a class="btn btn-primary" href="<?=$root?>/post/<?=$postsRS["post_id"]?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <hr>
                         <?php
                     }
                 }
                 ?>
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="#">&larr; Older</a>
-                    </li>
-                    <li class="next">
-                        <a href="#">Newer &rarr;</a>
-                    </li>
-                </ul>
             </div>
             <?php include "includes/sidebar.php" ?>
         </div>

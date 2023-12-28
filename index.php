@@ -74,24 +74,24 @@
                     while($postsRS = mysqli_fetch_assoc($response)) {
                         ?>
                         <h2>
-                            <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
+                            <a href="<?=$root?>/post/<?=$postsRS["post_id"]?>"><?=$postsRS["post_title"]?></a>
                         </h2>
                         <p class="lead">
-                            by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></a>
+                            by <a href="<?=$root?>/author/<?=$postsRS["post_author"]?>"><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></a>
                         </p>
                         <p><i class="fa fa-fw fa-clock-o"></i>&nbsp;Posted on <?=$postsRS["post_date"]?></p>
-                        <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="category.php?cid=<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
+                        <p><i class="fa fa-fw fa-tags"></i>&nbsp;Category: <a href="<?=$root?>/category/<?=$postsRS["cat_id"]?>"><?=$postsRS["cat_title"]?></a></p>
                         <hr>
-                        <a href="post.php?pid=<?=$postsRS["post_id"]?>"><?php
+                        <a href="<?=$root?>/post/<?=$postsRS["post_id"]?>"><?php
                         if (strpos($postsRS["post_image"], "http") > -1) {
-                            echo "<img src=\"" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
+                            echo "<img src=\"{$postsRS["post_image"]}\" class=\"img-responsive\" alt=\"\"/>";
                         } else {
-                            echo "<img src=\"images/" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
+                            echo "<img src=\"{$root}/images/{$postsRS["post_image"]}\" class=\"img-responsive\" alt=\"\"/>";
                         }
                         ?></a>
                         <hr>
                         <p><?=substr($postsRS["post_content"], 0, 300)?>...</p>
-                        <a class="btn btn-primary" href="post.php?pid=<?=$postsRS["post_id"]?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <a class="btn btn-primary" href="<?=$root?>/post/<?=$postsRS["post_id"]?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
                         <hr>
                         <?php
                     }
@@ -102,20 +102,20 @@
                             echo "<li class=\"disabled\"><a href=\"javascript:void(0);\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>";
                         } else {
                             $previousPage = ($pg - 1);
-                            echo "<li><a href=\"index.php?pg={$previousPage}\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>";
+                            echo "<li><a href=\"{$root}/?pg={$previousPage}\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></a></li>";
                         }
                         for ($i = 1; $i <= $postCount; $i++) {
                             if ($i == $pg) {
                                 echo "<li class=\"active\"><a href=\"index.php?pg={$i}\">{$i}</a></li>";
                             } else {
-                                echo "<li><a href=\"index.php?pg={$i}\">{$i}</a></li>";
+                                echo "<li><a href=\"{$root}/?pg={$i}\">{$i}</a></li>";
                             }
                         }
                         if (intval($pg) === intval($postCount)) {
                             echo "<li class=\"disabled\"><a href=\"javascript:void(0);\" aria-label=\"Previous\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
                         } else {
                             $nextPage = ($pg + 1);
-                            echo "<li><a href=\"index.php?pg={$nextPage}\" aria-label=\"Previous\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
+                            echo "<li><a href=\"{$root}/?pg={$nextPage}\" aria-label=\"Previous\"><span aria-hidden=\"true\">&raquo;</span></a></li>";
                         }
                         ?>
                     </ul>

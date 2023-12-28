@@ -46,15 +46,15 @@
                     ?>
                     <h2><?=$postsRS["post_title"]?></h2>
                     <p class="lead">
-                        by <a href="author_posts.php?author=<?=$postsRS["post_author"]?>"><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></a>
+                        by <a href="<?=$root?>/author/<?=$postsRS["post_author"]?>"><?=$postsRS["user_firstname"] . " " . $postsRS["user_lastname"]?></a>
                     </p>
                     <p><span class="glyphicon glyphicon-time"></span> Posted on <?=$postsRS["post_date"]?>&nbsp;&nbsp;|&nbsp;&nbsp;<i class="fa fa-area-chart"></i>&nbsp;Views: <?=$postsRS["post_views"]?></p>
                     <hr>
                     <?php
                     if (strpos($postsRS["post_image"], "http") > -1) {
-                        echo "<img src=\"" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
+                        echo "<img src=\"{$postsRS["post_image"]}\" class=\"img-responsive\" alt=\"\"/>";
                     } else {
-                        echo "<img src=\"images/" . $postsRS["post_image"] . "\" class=\"img-responsive\" alt=\"\"/>";
+                        echo "<img src=\"{$root}/images/{$postsRS["post_image"]}\" class=\"img-responsive\" alt=\"\"/>";
                     }
                     ?>
                     <hr>
@@ -63,7 +63,7 @@
                     if (isset($_SESSION["loggedUsername"])) {
                         ?>
                         <hr>
-                        <b><i class="fa fa-cogs"></i>&nbsp;&nbsp;ADMIN TOOLS:</b>&nbsp;&nbsp;<a href="admin/posts.php?source=edit&pid=<?=$postId?>">Edit Post</a>
+                        <b><i class="fa fa-cogs"></i>&nbsp;&nbsp;ADMIN TOOLS:</b>&nbsp;&nbsp;<a href="<?=$root?>/admin/posts.php?source=edit&pid=<?=$postId?>">Edit Post</a>
                         <?php
                     }
                     ?>

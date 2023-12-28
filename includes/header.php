@@ -10,10 +10,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Blog Home - Start Bootstrap Template</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="admin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <link href="css/blog-home.css" rel="stylesheet">
+    <link href="<?=$root?>/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=$root?>/admin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="<?=$root?>/css/blog-home.css" rel="stylesheet">
 </head>
 
 <body>

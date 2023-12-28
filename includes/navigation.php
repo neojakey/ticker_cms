@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php"><i class="fa fa-home"></i></a>
+                <a class="navbar-brand" href="<?=$root?>/"><i class="fa fa-home"></i></a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -20,15 +20,15 @@
                         if (isset($_GET["cid"]) && $_GET["cid"] == $categoriesRS["cat_id"]) {
                             $categoryClass = " active";
                         }
-                        echo "<li class=\"nav-link" . $categoryClass . "\"><a href=\"category.php?cid=" . $categoriesRS["cat_id"] . "\">" . $categoriesRS["cat_title"] . "</a></li>";
+                        echo "<li class=\"nav-link{$categoryClass}\"><a href=\"{$root}/category/{$categoriesRS["cat_id"]}\">{$categoriesRS["cat_title"]}</a></li>";
                     }
                     if (isset($_SESSION["loggedRole"])) {
                         if (!$_SESSION["loggedIsAdmin"]) {
-                            ?><li><a href="./includes/logout.php">Log Out</a></li><?php
+                            ?><li><a href="<?=$root?>/includes/logout.php">Log Out</a></li><?php
                         } else {
                             ?>
-                            <li><a href="./admin/">Admin</a></li>
-                            <li><a href="./includes/logout.php">Log Out</a></li>
+                            <li><a href="<?=$root?>/admin/">Admin</a></li>
+                            <li><a href="<?=$root?>/includes/logout.php">Log Out</a></li>
                             <?php
                         }
                     } else {
@@ -36,14 +36,14 @@
                         if ($pageName == "registration.php") {
                             $registrationClass = "active";
                         }
-                        ?><li class="<?=$registrationClass?>"><a href="./registration.php">Registration</a></li><?php
+                        ?><li class="<?=$registrationClass?>"><a href="<?=$root?>/registration">Registration</a></li><?php
                     }
                     $contactClass = "";
                     if ($pageName == "contact.php") {
                         $contactClass = "active";
                     }
                     ?>
-                    <li class="<?=$contactClass?>"><a href="./contact.php">Contact Us</a></li>
+                    <li class="<?=$contactClass?>"><a href="<?=$root?>/contact">Contact Us</a></li>
                 </ul>
             </div>
         </div>
