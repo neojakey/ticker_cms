@@ -11,7 +11,8 @@
                         SELECT
                             p.post_id, p.post_title,
                             p.post_author, p.post_date,
-                            p.post_image, c.cat_title,
+                            IFNULL(p.post_image, 'no-image-2.jpg') AS post_image,
+                            c.cat_title,
                             p.post_category_id AS cat_id,
                             post_content,
                             u.user_firstname,
@@ -30,7 +31,8 @@
                         SELECT
                             p.post_id, p.post_title,
                             p.post_author, p.post_date,
-                            p.post_image, c.cat_title,
+                            IFNULL(p.post_image, 'no-image-2.jpg') AS post_image,
+                            c.cat_title,
                             p.post_category_id AS cat_id,
                             post_content,
                             u.user_firstname,

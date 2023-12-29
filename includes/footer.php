@@ -6,7 +6,7 @@
             </div>
         </footer>
     </div>
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="<?=$root?>/js/jquery.js"></script>
+    <script src="<?=$root?>/js/bootstrap.min.js"></script>
 </body>
 </html>

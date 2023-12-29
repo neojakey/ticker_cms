@@ -18,7 +18,7 @@ if (isset($_POST["tbUsername"])) {
 
     /* SAVE USER TO THE DATABASE */
     $query = <<<SQL
-        INSERT INTO users(
+        INSERT INTO users (
             username,
             user_password,
             user_firstname,
@@ -26,7 +26,7 @@ if (isset($_POST["tbUsername"])) {
             user_email,
             user_image,
             user_role
-        ) VALUE(
+        ) VALUE (
             '{$username}',
             '{$userPassword}',
             '{$userFirstName}',

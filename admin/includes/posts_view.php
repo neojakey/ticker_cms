@@ -78,7 +78,7 @@
                                 $query = <<<SQL
                                     SELECT
                                         p.post_id,
-                                        p.post_image,
+                                        IFNULL(p.post_image, 'no-image-2.jpg') AS post_image,
                                         p.post_title,
                                         c.cat_title,
                                         p.post_author,

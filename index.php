@@ -54,7 +54,7 @@
                             p.post_title,
                             p.post_author,
                             p.post_date,
-                            p.post_image,
+                            IFNULL(p.post_image, 'no-image-2.jpg') AS post_image,
                             c.cat_title,
                             p.post_category_id AS cat_id,
                             p.post_content,
@@ -67,6 +67,8 @@
                         WHERE
                             1 = 1
                             {$approvedSQL}
+                        ORDER BY
+                            p.post_id DESC
                         LIMIT
                             $offset, 5
                     SQL;

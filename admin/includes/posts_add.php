@@ -1,40 +1,34 @@
 <?php
 if (isset($_POST["tbTitle"])) {
     /* DECLARE AND SET VARIABLES */
-    $postTitle = $_POST["tbTitle"];
+    $postTitle = escape($_POST["tbTitle"]);
     $postCategoryId = $_POST["ddCategoryId"];
     $postAuthor = $_POST["tbAuthor"];
     $postStatus = $_POST["ddStatus"];
     $postImage = $_FILES["fileImage"]["name"];
     $postImageTemp = $_FILES["fileImage"]["tmp_name"];
-    $postTags = $_POST["tbTags"];
-    $postContent = $_POST["taContent"];
+    $postTags = escape($_POST["tbTags"]);
+    $postContent = escape($_POST["taContent"]);
 
-    /* UPLOAD IMAGE IF FOUND */
-    move_uploaded_file($postImageTemp, "../images/$postImage");
+    if (!empty($postImage)) { // IMAGE WAS INCLUDED
+        /* UPLOAD IMAGE IF FOUND */
+        move_uploaded_file($postImageTemp, "../images/$postImage");
+        $imageSQL = "'{$postImage}',";
+    } else {
+        $imageSQL = "NULL,";
+    }
 
     /* SAVE POST TO THE DATABASE */
     $query = <<<SQL
         INSERT INTO posts(
-            post_title,
-            post_category_id,
-            post_author,
-            post_date,
-            post_image,
-            post_content,
-            post_tags,
-            post_status
+            post_title, post_category_id, post_author, post_date,
+            post_image, post_content, post_tags, post_status
         ) VALUE(
-            '{$postTitle}',
-            {$postCategoryId},
-            {$postAuthor},
-            now(),
-            '{$postImage}',
-            '{$postContent}',
-            '{$postTags}',
-            '{$postStatus}'
+            '{$postTitle}', {$postCategoryId}, {$postAuthor}, now(),
+            {$imageSQL} '{$postContent}', '{$postTags}', '{$postStatus}'
         )
     SQL;
+    echo $query;
     $addPost = mysqli_query($connection, $query);
     if (!$addPost) {
         die("Add Post Failed: " . mysqli_error($connection));

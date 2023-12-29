@@ -5,7 +5,7 @@ if (isset($_POST["hidPostId"])) {
     $postId = $_POST["hidPostId"];
     $postTitle = escape($_POST["tbTitle"]);
     $postCategoryId = $_POST["ddCategoryId"];
-    $postAuthor = escape($_POST["tbAuthor"]);
+    $postAuthor = $_POST["tbAuthor"];
     $postStatus = $_POST["ddStatus"];
     $postImage = $_FILES["fileImage"]["name"];
     $postImageTemp = $_FILES["fileImage"]["tmp_name"];
@@ -14,27 +14,23 @@ if (isset($_POST["hidPostId"])) {
 
     /* UPLOAD IMAGE IF FOUND */
     if (!empty($postImage)) { // IMAGE WAS INCLUDED
+        /* UPLOAD IMAGE IF FOUND */
         move_uploaded_file($postImageTemp, "../images/$postImage");
-        /* UPDATE POST IN THE DATABASE */
-        $query = <<<SQL
-            UPDATE posts SET
-                post_title = '{$postTitle}', post_category_id = {$postCategoryId},
-                post_author = {$postAuthor}, post_image = '{$postImage}',
-                post_content = '{$postContent}', post_tags = '{$postTags}',
-                post_status = '{$postStatus}'
-            WHERE
-                post_id = $postId
-        SQL;
+        $imageSQL = "post_image = '{$postImage}',";
     } else {
-        $query = <<<SQL
-            UPDATE posts SET
-                post_title = '{$postTitle}', post_category_id = {$postCategoryId},
-                post_author = {$postAuthor}, post_content = '{$postContent}',
-                post_tags = '{$postTags}', post_status = '{$postStatus}'
-            WHERE
-                post_id = $postId
-        SQL;
+        $imageSQL = "post_image = NULL,";
     }
+
+    /* UPDATE POST IN THE DATABASE */
+    $query = <<<SQL
+        UPDATE posts SET
+            post_title = '{$postTitle}', post_category_id = {$postCategoryId},
+            post_author = {$postAuthor}, {$imageSQL}
+            post_content = '{$postContent}', post_tags = '{$postTags}',
+            post_status = '{$postStatus}'
+        WHERE
+            post_id = $postId
+    SQL;
     $editPost = mysqli_query($connection, $query);
     if (!$editPost) {
         die("Edit Post Failed: " . mysqli_error($connection));

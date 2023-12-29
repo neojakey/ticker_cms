@@ -11,7 +11,7 @@ function redirect($location) {
     exit;
 }
 
-function isLoggedIn () {
+function isLoggedIn() {
     if (isset($_SESSION["loggedRole"])) {
         return true;
     }
