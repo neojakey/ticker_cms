@@ -8,4 +8,6 @@
     if (!$connection) {
         echo "Database connection was not established";
     }
+
+    mysqli_query($connection, "SET NAMES utf8");
 ?>

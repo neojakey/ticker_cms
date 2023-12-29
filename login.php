@@ -87,14 +87,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-user color-blue"></i></span>
-                                            <input type="text" name="tbUsername" autocomplete="off" value="<?=$username?>" class="form-control">
+                                            <input type="text" name="tbUsername" autocomplete="off" value="<?=$username?>" class="form-control" placeholder="Enter username">
                                         </div>
                                         <small style="color:red"><?=$usernameError?></small>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock color-blue"></i></span>
-                                            <input type="password" name="tbPassword" autocomplete="new-password" class="form-control">
+                                            <input type="password" name="tbPassword" autocomplete="new-password" class="form-control" placeholder="Enter password">
                                         </div>
                                         <small style="color:red"><?=$passwordError?></small>
                                     </div>

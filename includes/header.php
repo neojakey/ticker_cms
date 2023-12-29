@@ -13,6 +13,17 @@
     <link href="<?=$root?>/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?=$root?>/admin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="<?=$root?>/css/blog-home.css" rel="stylesheet">
+    <style type="text/css">
+        .flex {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            gap: 12px;
+            font-size: 12px;
+        }
+    </style>
+
 </head>
 
 <body>

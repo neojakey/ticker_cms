@@ -25,7 +25,10 @@
                                 <label for="login-password">Password:</label>
                                 <input type="password" autocomplete="off" name="tbPassword" id="login-password" class="form-control">
                             </div>
-                            <button type="submit" class="btn btn-primary">Log In</button>
+                            <div class="flex">
+                                <span><button type="submit" class="btn btn-primary">Log In</button></span>
+                                <span><a href="<?=$root?>/forgot.php?forgot=<?=uniqid(true)?>">Forgot Password</a></span>
+                            </div>
                         </form>
                     </div>
                 <?php else: ?>
