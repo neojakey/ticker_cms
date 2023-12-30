@@ -6,15 +6,15 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">
-                            Welcome to My Dashboard
+                            Welcome to the Admin Dashboard
                         </h1>
                     </div>
                 </div>
                 <?php
-                $approvedPostCount = customRecordCount(false, "post_author", "posts", "post_status", "Approved");
-                $draftPostCount = customRecordCount(false, "post_author", "posts", "post_status", "Draft");
-                $newCommentCount = customRecordCount(false, "comment_author", "comments", "comment_status", "New");
-                $commentCount = recordCountComments();
+                $approvedPostCount = customRecordCount(true, "", "posts", "post_status", "Approved");
+                $draftPostCount = customRecordCount(true, "", "posts", "post_status", "Draft");
+                $newCommentCount = customRecordCount(true, "", "comments", "comment_status", "New");
+                $commentCount = recordCount("comments");
                 $userCount = recordCount("users");
                 $catCount = recordCount("categories");
                 ?>

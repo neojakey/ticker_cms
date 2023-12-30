@@ -17,9 +17,31 @@ function recordCount($tableName) {
     return $countRS["count_result"];
 }
 
-function customRecordCount($tableName, $fieldName, $status) {
+function recordCountComments() {
     global $connection;
-    $query = "SELECT COUNT(*) AS count_result FROM {$tableName} WHERE {$fieldName} = '{$status}'";
+    $query = <<<SQL
+        SELECT
+            COUNT(*) AS count_result
+        FROM
+            comments AS c
+            INNER JOIN posts AS p ON c.comment_post_id = p.post_id
+        WHERE
+            c.comment_author = {$_SESSION["loggedUserId"]}
+    SQL;
+    $response =  mysqli_query($connection, $query);
+    $countRS = mysqli_fetch_assoc($response);
+    return $countRS["count_result"];
+}
+
+function customRecordCount($all, $userField, $tableName, $fieldName, $status) {
+    global $connection;
+
+    $byUserSQL = "";
+    if (!$all) {
+        $byUserSQL = " AND {$userField} = {$_SESSION["loggedUserId"]}";
+    }
+
+    $query = "SELECT COUNT(*) AS count_result FROM {$tableName} WHERE {$fieldName} = '{$status}'{$byUserSQL}";
     $response =  mysqli_query($connection, $query);
     $countRS = mysqli_fetch_assoc($response);
     return $countRS["count_result"];
@@ -29,6 +51,10 @@ function checkAdminSecurity() {
     if (!$_SESSION["loggedIsAdmin"]) {
         header("Location: ../index.php");
     }
+}
+
+function showSQL($query) {
+    echo "QUERY: " . $query . "<br/>";
 }
 
 function users_online() {

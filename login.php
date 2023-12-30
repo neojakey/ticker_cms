@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $_SESSION["loggedFirstname"] = $userLoggedFirstname;
                     $_SESSION["loggedLastname"] = $userLoggedLastname;
                     $_SESSION["loggedRole"] = $userLoggedRole;
+                    $_SESSION["loggedFullname"] = $userLoggedFirstname . " " . $userLoggedLastname;
 
                     $_SESSION["loggedIsAdmin"] = false;
                     if ($userLoggedRole === "Admin") {

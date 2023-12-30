@@ -44,6 +44,7 @@
             $_SESSION["loggedUsername"] = $username;
             $_SESSION["loggedFirstname"] = $userFirstName;
             $_SESSION["loggedLastname"] = $userLastName;
+            $_SESSION["loggedFullname"] = $userFirstName . " " . $userLastName;
         }
     }
     ?>

@@ -12,7 +12,7 @@
                 <li><a href="">Users Online: <span id="users-online"></span></a></li>
                 <li><a href="../">Home</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$_SESSION["loggedFirstname"] . " " . $_SESSION["loggedLastname"]?> <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?=$_SESSION["loggedFullname"]?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a></li>
                         <li class="divider"></li>
@@ -23,8 +23,13 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li>
-                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> My Dashboard</a>
                     </li>
+                    <?php if ($_SESSION["loggedIsAdmin"]): ?>
+                    <li>
+                        <a href="dashboard.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    </li>
+                    <?php endif; ?>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#posts_dd"><i class="fa fa-fw fa-file-text"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="posts_dd" class="collapse">
